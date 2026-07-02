@@ -25,6 +25,13 @@ build/
 # Runtime
 .server.pid
 
+# AI tooling (local only)
+CLAUDE.md
+.claude/
+
+# Editor config (local only)
+.zed/
+
 # OS / editor
 .DS_Store
 Thumbs.db
