@@ -48,3 +48,16 @@ events (sqrt curve), never stored — which is what keeps decay (time-weighted
 aggregation) and class systems (derived from stat distribution) open per D6.
 All balance tunables live in characters/services.py; formula changes replay
 cleanly because workouts are the source of truth.
+
+## D8 — Hybrid client: server-rendered logger now, SPA reserved for the game
+The logger and the dungeon have different interactivity floors. The logger is
+forms-and-tables — Django templates ship it fast, user-friendly, and as a
+single deployable app. The dungeon (P2) is irreducibly client-side and gets a
+React SPA when it arrives. Template views call the same service layer the API
+uses; the DRF API remains the tested, client-agnostic contract for the game
+client and any future client (D2 is insurance, not a mandate that every pixel
+flow through JSON today). Considered and rejected: building the logger as an
+SPA first (spends the project's early energy on a form Django renders better)
+and htmx (the dungeon needs a real client runtime regardless). Accepted cost:
+if the loop validates, the logger UI likely gets absorbed into the game client
+later — a deliberate rebuild, deferred until the loop has earned it.
