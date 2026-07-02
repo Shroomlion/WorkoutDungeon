@@ -1,0 +1,122 @@
+[
+  {
+    "model": "workouts.exercise",
+    "pk": 1,
+    "fields": {
+      "name": "Squat",
+      "measurement": "reps_weight",
+      "str_weight": 0.8,
+      "sta_weight": 0.0,
+      "agi_weight": 0.0,
+      "vit_weight": 0.2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 2,
+    "fields": {
+      "name": "Deadlift",
+      "measurement": "reps_weight",
+      "str_weight": 0.8,
+      "sta_weight": 0.1,
+      "agi_weight": 0.0,
+      "vit_weight": 0.1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 3,
+    "fields": {
+      "name": "Bench Press",
+      "measurement": "reps_weight",
+      "str_weight": 0.9,
+      "sta_weight": 0.0,
+      "agi_weight": 0.0,
+      "vit_weight": 0.1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 4,
+    "fields": {
+      "name": "Overhead Press",
+      "measurement": "reps_weight",
+      "str_weight": 0.9,
+      "sta_weight": 0.0,
+      "agi_weight": 0.0,
+      "vit_weight": 0.1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 5,
+    "fields": {
+      "name": "Push-up",
+      "measurement": "reps",
+      "str_weight": 0.6,
+      "sta_weight": 0.2,
+      "agi_weight": 0.0,
+      "vit_weight": 0.2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 6,
+    "fields": {
+      "name": "Pull-up",
+      "measurement": "reps",
+      "str_weight": 0.7,
+      "sta_weight": 0.1,
+      "agi_weight": 0.1,
+      "vit_weight": 0.1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 7,
+    "fields": {
+      "name": "Run",
+      "measurement": "distance",
+      "str_weight": 0.0,
+      "sta_weight": 0.8,
+      "agi_weight": 0.1,
+      "vit_weight": 0.1
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 8,
+    "fields": {
+      "name": "Cycling",
+      "measurement": "duration",
+      "str_weight": 0.0,
+      "sta_weight": 0.8,
+      "agi_weight": 0.0,
+      "vit_weight": 0.2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 9,
+    "fields": {
+      "name": "Yoga / Stretching",
+      "measurement": "duration",
+      "str_weight": 0.0,
+      "sta_weight": 0.0,
+      "agi_weight": 0.8,
+      "vit_weight": 0.2
+    }
+  },
+  {
+    "model": "workouts.exercise",
+    "pk": 10,
+    "fields": {
+      "name": "Box Jumps",
+      "measurement": "reps",
+      "str_weight": 0.2,
+      "sta_weight": 0.2,
+      "agi_weight": 0.6,
+      "vit_weight": 0.0
+    }
+  }
+]
