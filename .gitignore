@@ -29,6 +29,9 @@ build/
 CLAUDE.md
 .claude/
 
+# Private design thinking
+IDEAS.md
+
 # Editor config (local only)
 .zed/
 
@@ -38,3 +41,4 @@ Thumbs.db
 .idea/
 .vscode/
 *.log
+notes/
