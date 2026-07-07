@@ -1,0 +1,54 @@
+{% extends "logger/base.html" %}
+{% load static %}
+
+{% block title %}Log workout — Workout Dungeon{% endblock %}
+
+{% block content %}
+  <h1>Log a workout</h1>
+
+  <form method="post" class="workout-form">
+    {% csrf_token %}
+
+    <div class="field">
+      {{ form.performed_at.label_tag }}
+      {{ form.performed_at }}
+      {{ form.performed_at.errors }}
+    </div>
+
+    <div class="field">
+      {{ form.notes.label_tag }}
+      {{ form.notes }}
+      {{ form.notes.errors }}
+    </div>
+
+    <h2>Movements</h2>
+    {{ formset.non_form_errors }}
+    {{ formset.management_form }}
+
+    {% for set_form in formset %}
+      <fieldset class="set-row">
+        <legend>Movement {{ forloop.counter }}</legend>
+        {{ set_form.non_field_errors }}
+        {% for hidden in set_form.hidden_fields %}{{ hidden }}{% endfor %}
+        {% for field in set_form.visible_fields %}
+          <div class="field">
+            {# The exercise label is redundant next to the legend; keep it for screen readers only. #}
+            <label
+              {% if field.name == "exercise" %}class="visually-hidden"{% endif %}
+              for="{{ field.id_for_label }}"
+            >{{ field.label }}</label>
+            {{ field }}
+            {{ field.errors }}
+          </div>
+        {% endfor %}
+      </fieldset>
+    {% endfor %}
+
+    <button type="submit" class="button-primary">Save workout</button>
+  </form>
+{% endblock %}
+
+{% block scripts %}
+  {{ field_map|json_script:"field-map" }}
+  <script src="{% static 'logger/log_form.js' %}" defer></script>
+{% endblock %}

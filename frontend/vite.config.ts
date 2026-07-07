@@ -5,10 +5,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    // Forward API calls to Django so the browser sees a single origin.
-    // The React app fetches "/api/..." (relative URL) and never knows
-    // Django lives on another port — which means session cookies and
-    // CSRF behave exactly as they would in production behind one domain.
+    // Forward API calls to Django so the browser sees a single origin —
+    // session cookies and CSRF behave as they will in production.
     proxy: {
       '/api': 'http://localhost:8000',
     },

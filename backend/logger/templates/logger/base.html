@@ -1,0 +1,36 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Workout Dungeon{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'logger/style.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <nav>
+      <a href="{% url 'logger:sheet' %}">Character</a>
+      <a href="{% url 'logger:log' %}">Log workout</a>
+      {% if user.is_authenticated %}
+        {# Logout must be a POST (state change), so it's a form, not a link. #}
+        <form action="{% url 'logger:logout' %}" method="post">
+          {% csrf_token %}
+          <button type="submit">Log out</button>
+        </form>
+      {% endif %}
+    </nav>
+  </header>
+  <main>
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

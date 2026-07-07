@@ -24,7 +24,7 @@ XP_PER_BODYWEIGHT_REP = 0.5  # reps: 3x15 pushups -> 22.5 XP
 XP_PER_MINUTE = 1.0  # duration: 30 min -> 30 XP
 XP_PER_KM = 5.0  # distance: 5 km -> 25 XP
 
-BASE_SCORE = 8  # every stat starts here, D&D-commoner style
+BASE_SCORE = 1  # every stat starts here; scores are pure earned progress
 SCORE_XP_SCALE = 25.0  # +1 score at 25 XP, +2 at 100, +3 at 225 (sqrt curve)
 
 LEVEL_XP_SCALE = 100.0  # level 2 at 100 total XP, 3 at 400, 4 at 900
@@ -61,6 +61,19 @@ def score_from_xp(xp: float) -> int:
 
 def level_from_xp(total_xp: float) -> int:
     return 1 + math.floor(math.sqrt(max(total_xp, 0) / LEVEL_XP_SCALE))
+
+
+# The two curves' inverses: total XP at which a threshold is reached.
+# Score and level are *different curves* (SCORE_XP_SCALE vs LEVEL_XP_SCALE) —
+# don't mix them when computing "XP to next".
+
+
+def xp_for_score(score: int) -> float:
+    return SCORE_XP_SCALE * max(score - BASE_SCORE, 0) ** 2
+
+
+def xp_needed_for_level(level: int) -> float:
+    return LEVEL_XP_SCALE * (level - 1) ** 2
 
 
 # --- The loop ---------------------------------------------------------------
@@ -105,13 +118,21 @@ def ability_scores(character: Character) -> dict[str, dict]:
         .annotate(total=Sum("amount"))
         .values_list("stat", "total")
     )
-    return {
-        stat.value: {
-            "score": score_from_xp(totals.get(stat.value, 0.0)),
-            "xp": round(totals.get(stat.value, 0.0), 2),
+    scores = {}
+    for stat in Stat:
+        xp = totals.get(stat.value, 0.0)
+        score = score_from_xp(xp)
+        # Progress through the current score bracket, 0-100. The bracket
+        # spans from the threshold we passed to the next one up.
+        floor_xp = xp_for_score(score)
+        span = xp_for_score(score + 1) - floor_xp
+        scores[stat.value] = {
+            "score": score,
+            "xp": round(xp, 2),
+            "xp_to_next": round(xp_for_score(score + 1) - xp, 2),
+            "progress": round((xp - floor_xp) / span * 100),
         }
-        for stat in Stat
-    }
+    return scores
 
 
 def character_level(character: Character) -> int:

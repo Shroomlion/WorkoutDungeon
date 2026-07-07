@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Exercise, SetEntry, Workout
+from .models import REQUIRED_SET_FIELDS, Exercise, SetEntry, Workout
 
 
 class ExerciseSerializer(serializers.ModelSerializer):
@@ -15,15 +15,6 @@ class ExerciseSerializer(serializers.ModelSerializer):
             "agi_weight",
             "vit_weight",
         ]
-
-
-# Which SetEntry fields each measurement type requires.
-_REQUIRED_FIELDS = {
-    Exercise.Measurement.REPS_WEIGHT: ["reps", "weight_kg"],
-    Exercise.Measurement.REPS: ["reps"],
-    Exercise.Measurement.DURATION: ["duration_seconds"],
-    Exercise.Measurement.DISTANCE: ["distance_m"],
-}
 
 
 class SetEntrySerializer(serializers.ModelSerializer):
@@ -43,7 +34,7 @@ class SetEntrySerializer(serializers.ModelSerializer):
         exercise = data["exercise"]
         missing = [
             field
-            for field in _REQUIRED_FIELDS[exercise.measurement]
+            for field in REQUIRED_SET_FIELDS[exercise.measurement]
             if data.get(field) in (None, 0)
         ]
         if missing:

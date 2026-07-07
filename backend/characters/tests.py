@@ -26,7 +26,7 @@ class ScoreMathTests(TestCase):
 class ApplyWorkoutTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.user = User.objects.create_user(username="cj", password="x")
+        cls.user = User.objects.create_user(username="hero", password="x")
         cls.deadlift = Exercise.objects.create(
             name="Deadlift",
             measurement=Exercise.Measurement.REPS_WEIGHT,
@@ -78,6 +78,15 @@ class ApplyWorkoutTests(TestCase):
         self.assertEqual(scores["STR"]["score"], services.BASE_SCORE)
         self.assertAlmostEqual(scores["STR"]["xp"], 12.0)
         self.assertEqual(scores["STA"]["score"], services.BASE_SCORE)
+        # Next score point sits at SCORE_XP_SCALE (the score curve, not the
+        # level curve): 25 XP threshold - 12 earned = 13 to go.
+        self.assertAlmostEqual(
+            scores["STR"]["xp_to_next"], services.SCORE_XP_SCALE - 12.0
+        )
+        self.assertAlmostEqual(scores["STA"]["xp_to_next"], services.SCORE_XP_SCALE)
+        # 12 of the 25 XP in the first bracket -> 48% through it
+        self.assertEqual(scores["STR"]["progress"], 48)
+        self.assertEqual(scores["STA"]["progress"], 0)
 
     def test_distance_exercise_grants_stamina(self):
         workout = Workout.objects.create(user=self.user)

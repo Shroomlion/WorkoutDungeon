@@ -8,16 +8,16 @@ User = get_user_model()
 class AuthFlowTests(APITestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.user = User.objects.create_user(username="cj", password="hunter22")
+        cls.user = User.objects.create_user(username="hero", password="hunter22")
 
     def test_login_success_establishes_session(self):
         response = self.client.post(
             "/api/auth/login/",
-            {"username": "cj", "password": "hunter22"},
+            {"username": "hero", "password": "hunter22"},
             format="json",
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["username"], "cj")
+        self.assertEqual(response.data["username"], "hero")
         # Session cookie should now grant access to protected endpoints.
         me = self.client.get("/api/characters/me/")
         self.assertEqual(me.status_code, status.HTTP_200_OK)
@@ -25,7 +25,7 @@ class AuthFlowTests(APITestCase):
     def test_login_bad_password_rejected(self):
         response = self.client.post(
             "/api/auth/login/",
-            {"username": "cj", "password": "wrong"},
+            {"username": "hero", "password": "wrong"},
             format="json",
         )
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -33,7 +33,7 @@ class AuthFlowTests(APITestCase):
     def test_logout_clears_session(self):
         self.client.post(
             "/api/auth/login/",
-            {"username": "cj", "password": "hunter22"},
+            {"username": "hero", "password": "hunter22"},
             format="json",
         )
         response = self.client.post("/api/auth/logout/")

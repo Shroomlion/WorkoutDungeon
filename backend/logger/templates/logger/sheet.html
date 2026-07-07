@@ -1,0 +1,29 @@
+{% extends "logger/base.html" %}
+
+{% block title %}{{ character.name }} — Workout Dungeon{% endblock %}
+
+{% block content %}
+  <header class="sheet-header">
+    <h1>{{ character.name }}</h1>
+    <p class="level">
+      Level {{ level }}
+      <span class="to-next">{{ xp_to_next_level }} XP to next</span>
+    </p>
+  </header>
+
+  <section class="stats">
+    <h2>Abilities</h2>
+    <dl class="stat-list">
+      {% for code, stat in scores.items %}
+        <div class="stat">
+          <dt>{{ code }}</dt>
+          <dd class="score">{{ stat.score }}</dd>
+          <dd class="progress">
+            <div class="progress-fill" style="width: {{ stat.progress }}%"></div>
+          </dd>
+          <dd class="to-next">{{ stat.xp_to_next }} XP to next</dd>
+        </div>
+      {% endfor %}
+    </dl>
+  </section>
+{% endblock %}

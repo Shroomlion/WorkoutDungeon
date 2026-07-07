@@ -20,4 +20,7 @@ urlpatterns = [
     path("api/", include(router.urls)),
     path("api/auth/", include("accounts.urls")),
     path("api/characters/me/", MyCharacterView.as_view(), name="my-character"),
+    # Server-rendered logger UI (DECISIONS.md D8) — lives at the site root;
+    # everything under /api/ stays the client-agnostic contract.
+    path("", include("logger.urls")),
 ]

@@ -42,6 +42,17 @@ class Exercise(models.Model):
         return self.name
 
 
+# Which SetEntry fields each measurement type requires. Enforced by whichever
+# input layer is in play (DRF serializer, logger form) rather than the DB, so
+# the exercise catalog stays flexible.
+REQUIRED_SET_FIELDS = {
+    Exercise.Measurement.REPS_WEIGHT: ["reps", "weight_kg"],
+    Exercise.Measurement.REPS: ["reps"],
+    Exercise.Measurement.DURATION: ["duration_seconds"],
+    Exercise.Measurement.DISTANCE: ["distance_m"],
+}
+
+
 class Workout(models.Model):
     """A logged workout session; the unit the whole loop hangs off of:
     log workout -> recompute stats -> fetch character (D2)."""
@@ -66,7 +77,7 @@ class SetEntry(models.Model):
     """One set within a workout.
 
     Which fields are required depends on the exercise's measurement type
-    (enforced in the serializer, not the DB, so the catalog stays flexible):
+    (see REQUIRED_SET_FIELDS above; enforced at the input layer, not the DB):
       reps_weight -> reps + weight_kg
       reps        -> reps
       duration    -> duration_seconds

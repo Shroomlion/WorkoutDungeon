@@ -12,7 +12,7 @@ User = get_user_model()
 class WorkoutAPITests(APITestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.user = User.objects.create_user(username="cj", password="x")
+        cls.user = User.objects.create_user(username="hero", password="x")
         cls.bench = Exercise.objects.create(
             name="Bench Press",
             measurement=Exercise.Measurement.REPS_WEIGHT,

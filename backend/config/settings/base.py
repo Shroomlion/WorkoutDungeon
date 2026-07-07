@@ -21,7 +21,7 @@ INSTALLED_APPS = [
     "accounts",
     "workouts",
     "characters",
-
+    "logger",
 ]
 
 MIDDLEWARE = [
@@ -79,6 +79,11 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Server-rendered logger auth flow (D8).
+LOGIN_URL = "logger:login"
+LOGIN_REDIRECT_URL = "logger:sheet"
+LOGOUT_REDIRECT_URL = "logger:login"
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
